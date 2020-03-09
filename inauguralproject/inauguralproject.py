@@ -14,6 +14,7 @@ def square(x):
     y = x**2
     return y
 
+"""
 import math
 import numpy as np
 from scipy import optimize
@@ -41,3 +42,54 @@ def tax_rev:
 
 # New epsilon
 eps = 0.1
+"""
+
+import math
+from scipy import optimize
+import numpy as np
+import matplotlib.pyplot as plt
+
+#Question 1
+def u_func(c, l):
+    return np.log(m + w * l - (t_0 * w * l + t_1 * max(w * l-kappa,0))) - v*l **(1+1/eps)/(1+1/eps)
+
+m = 1
+v = 10
+eps = 0.3
+t_0 = 0.4
+t_1 = 0.1
+kappa = 0.4
+#w = 0.5
+#c = np.log(m + w * l - (t_0 * w * l + t_1 * max(w * l-kappa,0)))
+
+def print_solution(c,l,u):
+    print(f'c = {c:.8f}')
+    print(f'l = {l:.8f}')
+    print(f'u  = {u:.8f}')
+
+def value_of_choice(l,m,v,eps,t_0,t_1,kappa,w):
+    c = np.log(m + w * l - (t_0 * w * l + t_1 * max(w * l-kappa,0)))
+    return -u_func(c,l)
+
+sol_case = optimize.minimize_scalar(
+    value_of_choice,method='bounded',
+    bounds=(0,1),args=(m,v,eps,t_0,t_1,kappa,w))
+
+l = sol_case.x
+c = np.log(m + w * l - (t_0 * w * l + t_1 * max(w * l-kappa,0)))
+u = u_func(c,l)
+print_solution(c,l,u)
+
+#Question 2
+w = range(0.5, 1.5, 0.1)
+plt.plot(u)
+
+#Question 3
+N = 10000
+
+def tax_rev(l):
+    return sum(t_0 * w * l + t_1 * max(w * l - kappa, 0))
+print(tax_rev)
+
+#Question 4
+eps_ny = 0.1
