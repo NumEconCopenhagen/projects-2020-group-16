@@ -62,25 +62,52 @@ kappa = 0.4
 #w = 0.5
 #c = np.log(m + w * l - (t_0 * w * l + t_1 * max(w * l-kappa,0)))
 
-def print_solution(c,l,u):
-    print(f'c = {c:.8f}')
-    print(f'l = {l:.8f}')
-    print(f'u  = {u:.8f}')
+#pre define lists
+l_plot = []
+c_plot = []
+w_plot = []
 
-def value_of_choice(l,m,v,eps,t_0,t_1,kappa,w):
+for w in np.arange(0.5,1.5,0.05):
+    def print_solution(c,l,u):
+        print(f'c = {c:.8f}')
+        print(f'l = {l:.8f}')
+        print(f'u  = {u:.8f}')
+
+    def value_of_choice(l,m,v,eps,t_0,t_1,kappa,w):
+        c = np.log(m + w * l - (t_0 * w * l + t_1 * max(w * l-kappa,0)))
+        return -u_func(c,l)
+
+    sol_case = optimize.minimize_scalar(
+        value_of_choice,method='bounded',
+        bounds=(0,1),args=(m,v,eps,t_0,t_1,kappa,w))
+
+    l = sol_case.x
     c = np.log(m + w * l - (t_0 * w * l + t_1 * max(w * l-kappa,0)))
-    return -u_func(c,l)
+    u = u_func(c,l)
+    print_solution(c,l,u)
 
-sol_case = optimize.minimize_scalar(
-    value_of_choice,method='bounded',
-    bounds=(0,1),args=(m,v,eps,t_0,t_1,kappa,w))
+    # Store results as lists
+    l_plot.append(f'{l:.8}')
+    c_plot.append(f'{c:.8}')
+    w_plot.append(w)
 
-l = sol_case.x
-c = np.log(m + w * l - (t_0 * w * l + t_1 * max(w * l-kappa,0)))
-u = u_func(c,l)
-print_solution(c,l,u)
+#print the newly stored lists (to see that they are stored correctly)
+print('l results: ' + str(l_plot))
+print('c results: ' + str(c_plot))
+print('w results: ' + str(w_plot))
 
 #Question 2
+print(l_plot)
+print(c_plot)
+print(w_plot)
+
+plt.scatter(w_plot,l_plot)
+plt.show()
+
+plt.scatter(w_plot,c_plot)
+plt.show()
+
+
 w = range(0.5, 1.5, 0.1)
 plt.plot(u)
 
