@@ -60,8 +60,7 @@ eps = 0.3
 t_0 = 0.4
 t_1 = 0.1
 kappa = 0.4
-#w = 0.5
-#c = np.log(m + w * l - (t_0 * w * l + t_1 * max(w * l-kappa,0)))
+
 
 
 #pre define lists
@@ -69,6 +68,7 @@ l_plot = []
 c_plot = []
 w_plot = []
 
+#Der er lagt 0.05 til i enden af rangen, for at tage højde for 0 indexing.
 for w in np.arange(0.5,1.5 + 0.05,0.05):
     def print_solution(c,l,u):
         print(f'c = {c:.3f}')
@@ -79,8 +79,8 @@ for w in np.arange(0.5,1.5 + 0.05,0.05):
         c = np.log(m + w * l - (t_0 * w * l + t_1 * max(w * l-kappa,0)))
         return -u_func(c,l)
 
-    sol_case = optimize.minimize_scalar(
-        value_of_choice,method='bounded',
+    sol_case_ny = optimize.minimize_scalar(
+        value_of_choice_ny,method='bounded',
         bounds=(0,1),args=(m,v,eps,t_0,t_1,kappa,w))
 
     l = sol_case.x
@@ -125,12 +125,12 @@ c_plot_ny = []
 w_plot_ny = []
 
 for w in np.arange(0.5,1.5 + 0.05,0.05):
-    def print_solution(c,l,u):
+    def print_solution_ny(c,l,u):
         print(f'c = {c:.3f}')
         print(f'l = {l:.3f}')
         print(f'u  = {u:.3f}')
 
-    def value_of_choice(l,m,v,eps,t_0,t_1,kappa,w):
+    def value_of_choice_ny(l,m,v,eps,t_0,t_1,kappa,w):
         c = np.log(m + w * l - (t_0 * w * l + t_1 * max(w * l-kappa,0)))
         return -u_func(c,l)
 
@@ -141,12 +141,12 @@ for w in np.arange(0.5,1.5 + 0.05,0.05):
     l = sol_case.x
     c = np.log(m + w * l - (t_0 * w * l + t_1 * max(w * l-kappa,0)))
     u = u_func(c,l)
-    print_solution(c,l,u)
+    print_solution_ny(c,l,u)
 
     # Store results as lists
-    l_plot.append(f'{l:.3}')
-    c_plot.append(f'{c:.3}')
-    w_plot.append(w)
+    l_plot_ny.append(f'{l:.3}')
+    c_plot_ny.append(f'{c:.3}')
+    w_plot_ny.append(w)
 
 #print the newly stored lists (to see that they are stored correctly)
 print('l results: ' + str(l_plot_ny))
