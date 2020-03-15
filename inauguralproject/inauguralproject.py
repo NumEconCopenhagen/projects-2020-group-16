@@ -64,39 +64,65 @@ plt.ylabel("Optimal consumption")
 plt.title("Consumption")
 plt.show()
 
-#Question 3
+#Question 3 & 4
+def u_func3(c, l):
+    return np.log(m + wi * l - (t_0 * wi * l + t_1 * max(wi * l-kappa,0))) - v*l **(1+1/eps)/(1+1/eps)
+
+def value_of_choice3(l,m,v,eps,t_0,t_1,kappa,wi):
+    c = m + wi * l - (t_0 * wi * l + t_1 * max(wi * l - kappa,0))
+    return -u_func3(c,l)
+
 N = 10000
 
-#def tax_rev(l):
-#    return sum(t_0 * w * l + t_1 * max(w * l - kappa, 0))
-#print(tax_rev)
+# w = np.random.uniform(size=N, low=0.5, high=1.5)
+w = np.linspace(0.5, 1.5, N)
 
-w = np.random.uniform(size=N, low=0.5, high=1.5)
-    
-tax_revenue = np.sum(t_0 * w * l + t_1 * np.max(w * l - kappa, 0))
-print(tax_revenue)
+for eps in [0.3, 0.1]:
 
-#Question 4
-eps_ny = 0.1
+    l = []
+    c = []
+    tax_revenue = 0
+    for i, wi in enumerate(w):
 
-def u_func2(c, l):
-    return np.log(m + w * l - (t_0 * w * l + t_1 * max(w * l-kappa,0))) - v*l **(1+1/eps_ny)/(1+1/eps_ny)
-    
-for w in np.arange(0.5,1.5 + 0.05,0.05):
-    def value_of_choice2(l,m,v,eps_ny,t_0,t_1,kappa,w):
-        c = m + w * l - (t_0 * w * l + t_1 * max(w * l - kappa,0))
-        return -u_func(c,l)
+        sol_case = optimize.minimize_scalar(
+            value_of_choice3, method='bounded',
+            bounds=(0,1),args=(m,v,eps,t_0,t_1,kappa,wi))
 
-    sol_case = optimize.minimize_scalar(
-        value_of_choice2,method='bounded',
-        bounds=(0,1),args=(m,v,eps_ny,t_0,t_1,kappa,w))
+        l.append(sol_case.x)
+        c.append(m + wi * l[-1] - (t_0 * wi * l[-1] + t_1 * max(wi * l[-1] - kappa,0)))
 
-    l = sol_case.x
-    c = m + w * l - (t_0 * w * l + t_1 * max(w * l-kappa,0))
-    
-w = np.random.uniform(size=N, low=0.5, high=1.5)
-    
-tax_revenue = np.sum(t_0 * w * l + t_1 * np.max(w * l - kappa, 0))
-print(tax_revenue)
+        tax_revenue += t_0 * wi * l[i] + t_1 * np.max(wi * l[i] - kappa, 0)
+    print(tax_revenue)
 
 #Question 5
+def u_func3(c, l):
+    return np.log(m + wi * l - (t_0 * wi * l + t_1 * max(wi * l-kappa,0))) - v*l **(1+1/eps)/(1+1/eps)
+
+def value_of_choice3(l,m,v,eps,t_0,t_1,kappa,wi):
+    c = m + wi * l - (t_0 * wi * l + t_1 * max(wi * l - kappa,0))
+    return -u_func3(c,l)
+
+N = 100
+w = np.linspace(0.5, 1.5, N)
+eps = 0.3
+tax = {}
+
+for t_0 in np.linspace(0,1, 10):
+    for t_1 in np.linspace(0, 1, 10):
+        for kappa in np.linspace(t_0, 1, 10):
+            l = []
+            c = []
+            tax_revenue = 0
+            for i, wi in enumerate(w):
+
+                sol_case = optimize.minimize_scalar(
+                    value_of_choice3, method='bounded',
+                    bounds=(0,1),args=(m,v,eps,t_0,t_1,kappa,wi))
+
+                l.append(sol_case.x)
+                c.append(m + wi * l[-1] - (t_0 * wi * l[-1] + t_1 * max(wi * l[-1] - kappa,0)))
+
+                tax_revenue += t_0 * wi * l[i] + t_1 * np.max(wi * l[i] - kappa, 0)
+            key = (round(t_0, 2), round(t_1, 2), round(kappa, 2))
+            tax[key] = tax_revenue
+            print(f"{key} -> T = {round(tax_revenue,2)}")
