@@ -150,3 +150,4 @@ Overall the wage effect on l* and c* is linear only distorted at the point where
 The tax revenue is affected positively by the elasticity of labour supply, which is useful to know when deciding what kind of tax percentage one would want to implement.
 Also the maximum tax revenue is found at 78 % income tax, and no top income tax. However, it is unclear what is best for the society as a whole, as deadweight loss is not 
 accounted for.
+"""
