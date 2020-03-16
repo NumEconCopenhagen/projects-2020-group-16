@@ -6,6 +6,11 @@ import matplotlib.pyplot as plt
 from sympy import symbols, Eq, solve
 
 #Question 1
+"""
+As the model is a static model, and utility is strictly increasing with consumption the consumer will always choose to spend all his wealth on consumption, hence c = x,
+which is substituted directly into the utility function.
+
+"""
 #Utility function defined
 def u_func(c, l):
     return np.log(m + w * l - (t_0 * w * l + t_1 * max(w * l-kappa,0))) - v*l **(1+1/eps)/(1+1/eps)
@@ -27,7 +32,7 @@ def value_of_choice(l,m,v,eps,t_0,t_1,kappa,w):
         c = m + w * l - (t_0 * w * l + t_1 * max(w * l - kappa,0))
         return -u_func(c,l)
 
-#Der er lagt 0.05 til i enden af rangen, for at tage højde for 0 indexing.
+#There is added 0.05 to the end of the renge in order to account for zero indexing.
 for w in np.arange(0.5,1.5 + 0.05,0.05):
     
 
@@ -52,6 +57,12 @@ print('c results: ' + str(c_plot))
 print('w results: ' + str(w_plot))
 
 #Question 2
+"""
+Viewing the plot we see, that there is a break where higher wages will result in less time spent working. This is due to the new tax bracket off-setting the gain from an
+increase in consumption for the consumer. Same can be seen for the consumption, here there is a point where consumption stagnates as the consumer when maximizing will
+work less at the higher wage due to the tax bracket changing if he were to work more.
+"""
+
 #Plot of labour and wage
 plt.plot(w_plot, l_plot)
 plt.xlabel("Wage")
@@ -67,6 +78,11 @@ plt.title("Consumption")
 plt.show()
 
 #Question 3 & 4
+"""
+The tax revenue increases when the elasticity of labour falls from 0.3 to 0.1.
+
+
+"""
 def u_func3(c, l):
     return np.log(m + wi * l - (t_0 * wi * l + t_1 * max(wi * l-kappa,0))) - v*l **(1+1/eps)/(1+1/eps)
 
@@ -97,6 +113,12 @@ for eps in [0.3, 0.1]:
     print(tax_revenue)
 
 #Question 5
+"""
+From the perspective of the available tax revenue, the best case for t_0 is 0.78, with no top tax bracket (t_1 = 0). However, it is currently unclear how this would affect
+a deadweight loss and overall utility in the society, so it is not to say if this is actually the best values for t_0, t_1 and Kappa
+
+"""
+
 N = 100
 w = np.linspace(0.5, 1.5, N)
 eps = 0.3
