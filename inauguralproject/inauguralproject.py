@@ -104,7 +104,7 @@ tax = {}
 
 for t_0 in np.linspace(0,1, 10):
     for t_1 in np.linspace(0, 1, 10):
-        for kappa in np.linspace(0, 1, 10):
+        for kappa in np.linspace(t_0, 1, 10):
             l = []
             c = []
             tax_revenue = 0
