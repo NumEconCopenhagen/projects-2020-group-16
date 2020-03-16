@@ -23,11 +23,13 @@ l_plot = []
 c_plot = []
 w_plot = []
 
-#Der er lagt 0.05 til i enden af rangen, for at tage højde for 0 indexing.
-for w in np.arange(0.5,1.5 + 0.05,0.05):
-    def value_of_choice(l,m,v,eps,t_0,t_1,kappa,w):
+def value_of_choice(l,m,v,eps,t_0,t_1,kappa,w):
         c = m + w * l - (t_0 * w * l + t_1 * max(w * l - kappa,0))
         return -u_func(c,l)
+
+#Der er lagt 0.05 til i enden af rangen, for at tage højde for 0 indexing.
+for w in np.arange(0.5,1.5 + 0.05,0.05):
+    
 
     sol_case = optimize.minimize_scalar(
         value_of_choice,method='bounded',
@@ -95,13 +97,6 @@ for eps in [0.3, 0.1]:
     print(tax_revenue)
 
 #Question 5
-def u_func3(c, l):
-    return np.log(m + wi * l - (t_0 * wi * l + t_1 * max(wi * l-kappa,0))) - v*l **(1+1/eps)/(1+1/eps)
-
-def value_of_choice3(l,m,v,eps,t_0,t_1,kappa,wi):
-    c = m + wi * l - (t_0 * wi * l + t_1 * max(wi * l - kappa,0))
-    return -u_func3(c,l)
-
 N = 100
 w = np.linspace(0.5, 1.5, N)
 eps = 0.3
@@ -109,7 +104,7 @@ tax = {}
 
 for t_0 in np.linspace(0,1, 10):
     for t_1 in np.linspace(0, 1, 10):
-        for kappa in np.linspace(t_0, 1, 10):
+        for kappa in np.linspace(0, 1, 10):
             l = []
             c = []
             tax_revenue = 0
