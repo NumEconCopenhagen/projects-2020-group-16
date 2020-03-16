@@ -114,8 +114,9 @@ for eps in [0.3, 0.1]:
 
 #Question 5
 """
-From the perspective of the available tax revenue, the best case for t_0 is 0.78, with no top tax bracket (t_1 = 0). However, it is currently unclear how this would affect
-a deadweight loss and overall utility in the society, so it is not to say if this is actually the best values for t_0, t_1 and Kappa
+From the perspective of the available tax revenue, the best case for t_0 is 0.78, with no top tax bracket (t_1 = 0) and some kappa above 0.78.
+However, it is currently unclear how this would affect a deadweight loss and overall utility in the society, so it is not to say if this is actually
+the best values for t_0, t_1 and Kappa for the society as a whole.
 
 """
 
@@ -143,3 +144,10 @@ for t_0 in np.linspace(0,1, 10):
             key = (round(t_0, 2), round(t_1, 2), round(kappa, 2))
             tax[key] = tax_revenue
             print(f"{key} -> T = {round(tax_revenue,2)}")
+
+"""
+Overall the wage effect on l* and c* is linear only distorted at the point where the consumer has to think about if he/she wants to be in the top or lower tax bracket.
+The tax revenue is affected positively by the elasticity of labour supply, which is useful to know when deciding what kind of tax percentage one would want to implement.
+Also the maximum tax revenue is found at 78 % income tax, and no top income tax. However, it is unclear what is best for the society as a whole, as deadweight loss is not 
+accounted for.
+"""
