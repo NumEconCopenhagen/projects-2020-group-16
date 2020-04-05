@@ -15,3 +15,11 @@ def only_keep_municipalities(df):
         df = df.loc[I == False] # keep everything else
     
     return df
+
+import pandas as pd
+import os
+
+assert os.path.isdir('dataproject/')
+assert os.path.isfile('dataproject/INDKP101.xlsx')
+assert os.path.isfile('dataproject/RAS200.xlsx')
+
