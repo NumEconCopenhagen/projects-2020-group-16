@@ -6,7 +6,7 @@ The **results** of the project can be seen from running [projekt.ipynb](projekt.
 
 This **loads the datasets**:
 
-1. data.csv downloaded from 
+1. data.csv
 
 
 **Dependencies:** Apart from a standard Anaconda Python 3 installation, the project requires the following installations:
